@@ -182,7 +182,7 @@ export function makeApi(runtimeState: RuntimeState, opts: MakeApiOptions): PnpAp
 
       try {
         candidates.push(unqualifiedPath);
-        stat = opts.fakeFs.statSync(unqualifiedPath);
+        stat = opts.fakeFs.existsSync(unqualifiedPath) ? opts.fakeFs.statSync(unqualifiedPath) : null;
       } catch (error) {}
 
       // If the file exists and is a file, we can stop right there
