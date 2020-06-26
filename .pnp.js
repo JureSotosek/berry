@@ -36001,10 +36001,9 @@ function normalizeLineEndings(originalContent, newContent) {
 /* harmony export */   "LZ": () => /* binding */ PortablePath,
 /* harmony export */   "cS": () => /* binding */ npath,
 /* harmony export */   "y1": () => /* binding */ ppath,
-/* harmony export */   "CI": () => /* binding */ convertPath,
-/* harmony export */   "Zu": () => /* binding */ toFilename
+/* harmony export */   "CI": () => /* binding */ convertPath
 /* harmony export */ });
-/* unused harmony export Filename */
+/* unused harmony exports Filename, toFilename */
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(622);
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -39587,7 +39586,7 @@ function makeApi(runtimeState, opts) {
         let pkgJson;
 
         try {
-          pkgJson = JSON.parse(opts.fakeFs.readFileSync(sources_path/* ppath.join */.y1.join(unqualifiedPath, (0,sources_path/* toFilename */.Zu)(`package.json`)), `utf8`));
+          pkgJson = JSON.parse(opts.fakeFs.readFileSync(sources_path/* ppath.join */.y1.join(unqualifiedPath, `package.json`), `utf8`));
         } catch (error) {}
 
         let nextUnqualifiedPath;
@@ -39619,7 +39618,7 @@ function makeApi(runtimeState, opts) {
         for (const extension of extensions) {
           const candidateFile = sources_path/* ppath.format */.y1.format({
             dir: unqualifiedPath,
-            name: (0,sources_path/* toFilename */.Zu)(`index`),
+            name: `index`,
             ext: extension
           });
           candidates.push(candidateFile);
@@ -39665,7 +39664,7 @@ function makeApi(runtimeState, opts) {
 
 
   function callNativeResolution(request, issuer) {
-    if (issuer.endsWith(`/`)) issuer = sources_path/* ppath.join */.y1.join(issuer, (0,sources_path/* toFilename */.Zu)(`internal.js`)); // Since we would need to create a fake module anyway (to call _resolveLookupPath that
+    if (issuer.endsWith(`/`)) issuer = sources_path/* ppath.join */.y1.join(issuer, `internal.js`); // Since we would need to create a fake module anyway (to call _resolveLookupPath that
     // would give us the paths to give to _resolveFilename), we can as well not use
     // the {paths} option at all, since it internally makes _resolveFilename create another
     // fake module anyway.

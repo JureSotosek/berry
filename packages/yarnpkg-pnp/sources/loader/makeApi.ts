@@ -1,5 +1,5 @@
 import {FakeFS, NativePath, Path, PortablePath, VirtualFS, npath}                                           from '@yarnpkg/fslib';
-import {ppath, toFilename}                                                                                  from '@yarnpkg/fslib';
+import {ppath, Filename}                                                                                    from '@yarnpkg/fslib';
 import {Module}                                                                                             from 'module';
 
 import {PackageInformation, PackageLocator, PnpApi, RuntimeState, PhysicalPackageLocator, DependencyTarget} from '../types';
@@ -196,7 +196,7 @@ export function makeApi(runtimeState: RuntimeState, opts: MakeApiOptions): PnpAp
         let pkgJson;
 
         try {
-          pkgJson = JSON.parse(opts.fakeFs.readFileSync(ppath.join(unqualifiedPath, toFilename(`package.json`)), `utf8`));
+          pkgJson = JSON.parse(opts.fakeFs.readFileSync(ppath.join(unqualifiedPath, `package.json` as Filename), `utf8`));
         } catch (error) {}
 
         let nextUnqualifiedPath;
@@ -229,7 +229,7 @@ export function makeApi(runtimeState: RuntimeState, opts: MakeApiOptions): PnpAp
 
       if (stat && stat.isDirectory()) {
         for (const extension of extensions) {
-          const candidateFile = ppath.format({dir: unqualifiedPath, name: toFilename(`index`), ext: extension});
+          const candidateFile = ppath.format({dir: unqualifiedPath, name: `index` as Filename, ext: extension});
           candidates.push(candidateFile);
           if (opts.fakeFs.existsSync(candidateFile)) {
             return candidateFile;
@@ -274,7 +274,7 @@ export function makeApi(runtimeState: RuntimeState, opts: MakeApiOptions): PnpAp
 
   function callNativeResolution(request: PortablePath, issuer: PortablePath): NativePath | false {
     if (issuer.endsWith(`/`))
-      issuer = ppath.join(issuer, toFilename(`internal.js`));
+      issuer = ppath.join(issuer, `internal.js` as Filename);
 
     // Since we would need to create a fake module anyway (to call _resolveLookupPath that
     // would give us the paths to give to _resolveFilename), we can as well not use
