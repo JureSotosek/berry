@@ -39586,7 +39586,11 @@ function makeApi(runtimeState, opts) {
         let pkgJson;
 
         try {
-          pkgJson = JSON.parse(opts.fakeFs.readFileSync(sources_path/* ppath.join */.y1.join(unqualifiedPath, `package.json`), `utf8`));
+          const pkgJsonPath = sources_path/* ppath.join */.y1.join(unqualifiedPath, `package.json`);
+
+          if (opts.fakeFs.existsSync(pkgJsonPath)) {
+            pkgJson = JSON.parse(opts.fakeFs.readFileSync(pkgJsonPath, `utf8`));
+          }
         } catch (error) {}
 
         let nextUnqualifiedPath;

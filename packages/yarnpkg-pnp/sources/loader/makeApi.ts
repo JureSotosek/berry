@@ -196,7 +196,10 @@ export function makeApi(runtimeState: RuntimeState, opts: MakeApiOptions): PnpAp
         let pkgJson;
 
         try {
-          pkgJson = JSON.parse(opts.fakeFs.readFileSync(ppath.join(unqualifiedPath, `package.json` as Filename), `utf8`));
+          const pkgJsonPath = ppath.join(unqualifiedPath, `package.json` as Filename);
+          if (opts.fakeFs.existsSync(pkgJsonPath)) {
+            pkgJson = JSON.parse(opts.fakeFs.readFileSync(pkgJsonPath, `utf8`));
+          }
         } catch (error) {}
 
         let nextUnqualifiedPath;
