@@ -39616,19 +39616,17 @@ function makeApi(runtimeState, opts) {
 
 
       if (stat && stat.isDirectory()) {
-        const indexPath = extensions.map(extension => {
-          return sources_path/* ppath.format */.y1.format({
+        for (const extension of extensions) {
+          const candidateFile = sources_path/* ppath.format */.y1.format({
             dir: unqualifiedPath,
             name: (0,sources_path/* toFilename */.Zu)(`index`),
             ext: extension
           });
-        }).find(candidateFile => {
           candidates.push(candidateFile);
-          return opts.fakeFs.existsSync(candidateFile);
-        });
 
-        if (indexPath) {
-          return indexPath;
+          if (opts.fakeFs.existsSync(candidateFile)) {
+            return candidateFile;
+          }
         }
       } // Otherwise there's nothing else we can do :(
 

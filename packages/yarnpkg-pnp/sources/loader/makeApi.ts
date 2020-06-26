@@ -228,17 +228,12 @@ export function makeApi(runtimeState: RuntimeState, opts: MakeApiOptions): PnpAp
       // Otherwise, we check if the path is a folder - in such a case, we try to use its index
 
       if (stat && stat.isDirectory()) {
-        const indexPath = extensions
-          .map(extension => {
-            return ppath.format({dir: unqualifiedPath, name: toFilename(`index`), ext: extension});
-          })
-          .find(candidateFile => {
-            candidates.push(candidateFile);
-            return opts.fakeFs.existsSync(candidateFile);
-          });
-
-        if (indexPath) {
-          return indexPath;
+        for (const extension of extensions) {
+          const candidateFile = ppath.format({dir: unqualifiedPath, name: toFilename(`index`), ext: extension});
+          candidates.push(candidateFile);
+          if (opts.fakeFs.existsSync(candidateFile)) {
+            return candidateFile;
+          }
         }
       }
 
