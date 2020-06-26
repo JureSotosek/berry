@@ -217,17 +217,13 @@ export function makeApi(runtimeState: RuntimeState, opts: MakeApiOptions): PnpAp
 
       // Otherwise we check if we find a file that match one of the supported extensions
 
-      const qualifiedPath = extensions
-        .map(extension => {
-          return `${unqualifiedPath}${extension}` as PortablePath;
-        })
-        .find(candidateFile => {
-          candidates.push(candidateFile);
-          return opts.fakeFs.existsSync(candidateFile);
-        });
-
-      if (qualifiedPath)
-        return qualifiedPath;
+      for (const extension of extensions) {
+        const candidateFile = `${unqualifiedPath}${extension}` as PortablePath;
+        candidates.push(candidateFile);
+        if (opts.fakeFs.existsSync(candidateFile)) {
+          return candidateFile;
+        }
+      }
 
       // Otherwise, we check if the path is a folder - in such a case, we try to use its index
 

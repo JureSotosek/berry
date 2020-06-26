@@ -39605,13 +39605,15 @@ function makeApi(runtimeState, opts) {
       } // Otherwise we check if we find a file that match one of the supported extensions
 
 
-      const qualifiedPath = extensions.map(extension => {
-        return `${unqualifiedPath}${extension}`;
-      }).find(candidateFile => {
+      for (const extension of extensions) {
+        const candidateFile = `${unqualifiedPath}${extension}`;
         candidates.push(candidateFile);
-        return opts.fakeFs.existsSync(candidateFile);
-      });
-      if (qualifiedPath) return qualifiedPath; // Otherwise, we check if the path is a folder - in such a case, we try to use its index
+
+        if (opts.fakeFs.existsSync(candidateFile)) {
+          return candidateFile;
+        }
+      } // Otherwise, we check if the path is a folder - in such a case, we try to use its index
+
 
       if (stat && stat.isDirectory()) {
         const indexPath = extensions.map(extension => {
